@@ -1,42 +1,37 @@
-using System.Collections;
-using System.Collections.Generic;
-using System;
-using UnityEngine.InputSystem;
 using UnityEngine;
 
-public class PlayerVisual : MonoBehaviour {
-    
+public class PlayerVisual : MonoBehaviour
+{
     private Animator animator;
-    private SpriteRenderer spriteRenderer;
 
-    private const string IS_RUNNING = "IsRunning";
+    private const string MOVE_X = "MoveX";
+    private const string MOVE_Y = "MoveY";
+    private const string SPEED = "Speed";
+    private const string LAST_MOVE_X = "LastMoveX";
+    private const string LAST_MOVE_Y = "LastMoveY";
+
+    private Vector2 lastMoveDirection = new Vector2(0, -1);
 
     private void Awake()
     {
         animator = GetComponent<Animator>();
-        spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
     private void Update()
     {
-        animator.SetBool(IS_RUNNING, Player.Instance.IsRunning());
-        AdjustPlayerFacingDirection();
-    }
+        Vector2 movementVector = Player.Instance.GetMovementVector();
 
+        animator.SetFloat(MOVE_X, movementVector.x);
+        animator.SetFloat(MOVE_Y, movementVector.y);
+        animator.SetFloat(SPEED, movementVector.sqrMagnitude);
 
-    private void AdjustPlayerFacingDirection()
-    {
-        Vector3 mousePos = GameInput.Instance.GetMousePosition();
-        Vector3 playerPosition = Player.Instance.GetPlayerScreenPosition();
-
-        if (mousePos.x < playerPosition.x)
-        { 
-            spriteRenderer.flipX = true;
-        }
-        else
+        if (movementVector != Vector2.zero)
         {
-            spriteRenderer.flipX = false;
+            lastMoveDirection = movementVector;
+
+            animator.SetFloat(LAST_MOVE_X, lastMoveDirection.x);
+            animator.SetFloat(LAST_MOVE_Y, lastMoveDirection.y);
         }
     }
-
 }
+

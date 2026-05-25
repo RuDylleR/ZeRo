@@ -1,39 +1,30 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine.InputSystem; 
 using UnityEngine;
-
 
 public class GameInput : MonoBehaviour
 {
-    public Vector3 GetMousePosition() {
-
-        return Mouse.current.position.ReadValue();
-    }
-
     public static GameInput Instance { get; private set; }
-
-
-    private PlayerInputActions playerInputActions;
 
     private void Awake()
     {
         Instance = this;
-
-        playerInputActions = new PlayerInputActions();
-        playerInputActions.Enable();
     }
 
     public Vector2 GetMovementVector()
     {
-        Vector2 InputVector = playerInputActions.Player.Move.ReadValue<Vector2>();
-        return InputVector;
-    }
+        Vector2 inputVector = Vector2.zero;
 
-    public Vector3 getMousePosition()
-    {
-        Vector3 mousePos = Mouse.current.position.ReadValue();
-        return mousePos;
-    }
+        if (Input.GetKey(KeyCode.W))
+            inputVector.y = 1f;
 
+        if (Input.GetKey(KeyCode.S))
+            inputVector.y = -1f;
+
+        if (Input.GetKey(KeyCode.A))
+            inputVector.x = -1f;
+
+        if (Input.GetKey(KeyCode.D))
+            inputVector.x = 1f;
+
+        return inputVector;
+    }
 }

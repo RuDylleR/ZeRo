@@ -1,18 +1,14 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-
     public static Player Instance { get; private set; }
 
     [SerializeField] private float movingSpeed = 5f;
 
     private Rigidbody2D rb;
-
-    private float minMovingSpeed = 0.1f;
-    private bool isRunning = false;
+    private Vector2 inputVector;
+    private bool isRunning;
 
     private void Awake()
     {
@@ -27,18 +23,12 @@ public class Player : MonoBehaviour
 
     private void HandleMovement()
     {
-        Vector2 inputVector = GameInput.Instance.GetMovementVector();
+        inputVector = GameInput.Instance.GetMovementVector();
         inputVector = inputVector.normalized;
+
         rb.MovePosition(rb.position + inputVector * movingSpeed * Time.fixedDeltaTime);
 
-        if (Mathf.Abs(inputVector.x) > minMovingSpeed || Mathf.Abs(inputVector.y) > minMovingSpeed)
-        {
-            isRunning = true;
-        }
-        else
-        {
-            isRunning = false;
-        }
+        isRunning = inputVector != Vector2.zero;
     }
 
     public bool IsRunning()
@@ -46,9 +36,8 @@ public class Player : MonoBehaviour
         return isRunning;
     }
 
-    public Vector3 GetPlayerScreenPosition() { 
-        Vector3 playerScreenPosition = Camera.main.WorldToScreenPoint(transform.position);
-        return playerScreenPosition;
+    public Vector2 GetMovementVector()
+    {
+        return inputVector;
     }
-
 }
