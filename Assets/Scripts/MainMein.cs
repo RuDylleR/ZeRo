@@ -5,10 +5,11 @@ using UnityEngine.UI;
 public class MainMenu : MonoBehaviour
 {
     public Slider volumeSlider;
+    public AudioSource musicSource;
 
     void Start()
     {
-        volumeSlider.value = AudioListener.volume;
+        volumeSlider.value = musicSource.volume;
     }
 
     public void StartGame()
@@ -24,6 +25,15 @@ public class MainMenu : MonoBehaviour
 
     public void SetVolume(float volume)
     {
-        AudioListener.volume = volume;
+
+        Debug.Log("Slider volume = " + volume);
+
+        musicSource.volume = volume;
+
+        if (!musicSource.isPlaying)
+        {
+            Debug.Log("Music stopped, starting again");
+            musicSource.Play();
+        }
     }
 }

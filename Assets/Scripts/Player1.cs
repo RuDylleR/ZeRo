@@ -9,6 +9,7 @@ public class Player : MonoBehaviour
     private Rigidbody2D rb;
     private Vector2 inputVector;
     private bool isRunning;
+    private bool isKnockedBack;
 
     private void Awake()
     {
@@ -23,6 +24,12 @@ public class Player : MonoBehaviour
 
     private void HandleMovement()
     {
+
+        if (isKnockedBack)
+        {
+            return;
+        }
+
         inputVector = GameInput.Instance.GetMovementVector();
         inputVector = inputVector.normalized;
 
@@ -40,4 +47,10 @@ public class Player : MonoBehaviour
     {
         return inputVector;
     }
+
+    public void SetKnockbackState(bool state)
+    {
+        isKnockedBack = state;
+    }
+
 }
