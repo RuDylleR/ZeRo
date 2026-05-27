@@ -12,6 +12,8 @@ public class PickupItem : MonoBehaviour
             {
                 Debug.Log("ПРЕДМЕТ ПІДІБРАНО");
 
+                GameManager.instance.AddItem();
+
                 Destroy(gameObject);
             }
         }

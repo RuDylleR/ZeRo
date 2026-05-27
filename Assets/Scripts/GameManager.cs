@@ -16,15 +16,24 @@ public class GameManager : MonoBehaviour
         instance = this;
     }
 
+    private void Start()
+    {
+        counterText.text = "Предметів: 0/3";
+    }
+
     public void AddItem()
     {
         collectedItems++;
 
         counterText.text = "Предметів: " + collectedItems + "/3";
 
+        Debug.Log("TEXT UPDATED");
+
         if (collectedItems >= 3)
         {
             exitDoor.SetActive(false);
+
+            Debug.Log("EXIT OPENED");
         }
     }
 }
