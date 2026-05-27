@@ -7,8 +7,12 @@ public class Portal : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
+        Debug.Log("Хтось зайшов у портал");
+
         if (other.CompareTag("Player"))
         {
+            Debug.Log("PLAYER DETECTED");
+
             SceneManager.LoadScene(nextSceneName);
         }
     }
