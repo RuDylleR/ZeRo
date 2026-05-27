@@ -7,12 +7,13 @@ public class MusicManager : MonoBehaviour
     public AudioClip[] musicTracks;
 
     private AudioSource audioSource;
-
     private int currentTrack = 0;
 
-    void Awake()
+    private const string MUSIC_VOLUME_KEY = "MusicVolume";
+
+    private void Awake()
     {
-        if (instance != null)
+        if (instance != null && instance != this)
         {
             Destroy(gameObject);
             return;
@@ -23,15 +24,34 @@ public class MusicManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
 
         audioSource = GetComponent<AudioSource>();
+
+        // Якщо гучність ще не збережена
+        if (!PlayerPrefs.HasKey(MUSIC_VOLUME_KEY))
+        {
+            PlayerPrefs.SetFloat(MUSIC_VOLUME_KEY, 0.3f);
+            PlayerPrefs.Save();
+        }
+
+        // Завантаження збереженої гучності
+        float savedVolume = PlayerPrefs.GetFloat(MUSIC_VOLUME_KEY);
+
+        audioSource.volume = savedVolume;
     }
 
-    void Start()
+    private void Start()
     {
-        PlayTrack(currentTrack);
+        if (audioSource == null) return;
+
+        if (!audioSource.isPlaying)
+        {
+            PlayTrack(currentTrack);
+        }
     }
 
     public void NextTrack()
     {
+        if (musicTracks == null || musicTracks.Length == 0) return;
+
         currentTrack++;
 
         if (currentTrack >= musicTracks.Length)
@@ -42,10 +62,50 @@ public class MusicManager : MonoBehaviour
         PlayTrack(currentTrack);
     }
 
-    void PlayTrack(int index)
+    private void PlayTrack(int index)
     {
+        if (audioSource == null) return;
+        if (musicTracks == null || musicTracks.Length == 0) return;
+
         audioSource.clip = musicTracks[index];
 
+        audioSource.volume = GetSavedVolume();
+
         audioSource.Play();
+    }
+
+    public void SetVolume(float volume)
+    {
+        if (audioSource == null) return;
+
+        volume = Mathf.Clamp01(volume);
+
+        audioSource.volume = volume;
+
+        PlayerPrefs.SetFloat(MUSIC_VOLUME_KEY, volume);
+
+        PlayerPrefs.Save();
+    }
+
+    public float GetVolume()
+    {
+        if (audioSource == null)
+        {
+            return GetSavedVolume();
+        }
+
+        return audioSource.volume;
+    }
+
+    public float GetSavedVolume()
+    {
+        return PlayerPrefs.GetFloat(MUSIC_VOLUME_KEY, 0.3f);
+    }
+
+    public void ApplySavedVolume()
+    {
+        if (audioSource == null) return;
+
+        audioSource.volume = GetSavedVolume();
     }
 }

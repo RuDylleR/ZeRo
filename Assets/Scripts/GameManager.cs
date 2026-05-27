@@ -1,5 +1,7 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -11,6 +13,11 @@ public class GameManager : MonoBehaviour
 
     public GameObject exitDoor;
 
+    [Header("Pause")]
+    [SerializeField] private GameObject pauseMenuCanvas;
+
+    private bool isPaused = false;
+
     private void Awake()
     {
         instance = this;
@@ -19,6 +26,23 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         counterText.text = "Предметів: 0/3";
+
+        pauseMenuCanvas.SetActive(false);
+    }
+
+    private void Update()
+    {
+        if (Keyboard.current.escapeKey.wasPressedThisFrame)
+        {
+            if (isPaused)
+            {
+                ResumeGame();
+            }
+            else
+            {
+                PauseGame();
+            }
+        }
     }
 
     public void AddItem()
@@ -36,4 +60,31 @@ public class GameManager : MonoBehaviour
             Debug.Log("EXIT OPENED");
         }
     }
+
+    public void PauseGame()
+    {
+        pauseMenuCanvas.SetActive(true);
+        Time.timeScale = 0f;
+        isPaused = true;
+    }
+
+    public void ResumeGame()
+    {
+        pauseMenuCanvas.SetActive(false);
+        Time.timeScale = 1f;
+        isPaused = false;
+    }
+
+    public void LoadMainMenu()
+    {
+        if (MusicManager.instance != null)
+        {
+            PlayerPrefs.SetFloat("MusicVolume", MusicManager.instance.GetVolume());
+            PlayerPrefs.Save();
+        }
+
+        Time.timeScale = 1f;
+        SceneManager.LoadScene("MainMenu");
+    }
+
 }

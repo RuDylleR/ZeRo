@@ -478,6 +478,7 @@ GameObject:
   m_Component:
   - component: {fileID: 331692546}
   - component: {fileID: 331692545}
+  - component: {fileID: 331692547}
   m_Layer: 5
   m_Name: VolumeSlider
   m_TagString: Untagged
@@ -535,19 +536,7 @@ MonoBehaviour:
   m_Value: 1
   m_OnValueChanged:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 2015199428}
-        m_TargetAssemblyTypeName: MainMenu, Assembly-CSharp
-        m_MethodName: SetVolume
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!224 &331692546
 RectTransform:
   m_ObjectHideFlags: 0
@@ -570,6 +559,18 @@ RectTransform:
   m_AnchoredPosition: {x: -17, y: -23}
   m_SizeDelta: {x: 160, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &331692547
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 331692544}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bf08afef764729846be16eb596f753ef, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::VolumeSliderUI
 --- !u!1 &352666346
 GameObject:
   m_ObjectHideFlags: 0
@@ -1258,7 +1259,7 @@ AudioSource:
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 8300000, guid: d8ab38f40f5d4f8419648d4d0ebe8317, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 1
+  m_Volume: 0.1
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -1923,6 +1924,7 @@ GameObject:
   - component: {fileID: 1915791586}
   - component: {fileID: 1915791585}
   - component: {fileID: 1915791584}
+  - component: {fileID: 1915791587}
   m_Layer: 5
   m_Name: NextTrackButton
   m_TagString: Untagged
@@ -1994,9 +1996,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 813695135}
-        m_TargetAssemblyTypeName: MusicManager, Assembly-CSharp
-        m_MethodName: NextTrack
+      - m_Target: {fileID: 1915791587}
+        m_TargetAssemblyTypeName: MusicButtonUI, Assembly-CSharp
+        m_MethodName: NextMusic
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2044,6 +2046,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1915791582}
   m_CullTransparentMesh: 1
+--- !u!114 &1915791587
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1915791582}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9d61b525fc82df54ba6bed0c4d2ab820, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MusicButtonUI
 --- !u!1 &1977275314
 GameObject:
   m_ObjectHideFlags: 0
